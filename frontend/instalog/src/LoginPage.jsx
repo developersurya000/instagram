@@ -11,14 +11,14 @@ const LoginPage = () => {
     username: '',
     password: ''
   });
-
+ const url="https://instagram-gh6t.onrender.com";
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true); // Show spinner
     setShowPopup(false); // Hide pop-up initially
 
     // Simulate a login process (replace this with your actual login logic)
-    axios.post('http://localhost:4040/login', values)
+    axios.post(`${url}/login`, values)
       .then((res) => {
         if (res.data.status === "success") {
           navigate('/home');
