@@ -3,15 +3,16 @@ const app = express();
 import cors from 'cors';
 app.use(cors());
 app.use(express.json());
-import mysql, { createConnection } from 'mysql';
+import mysql from 'mysql';
 
 const instauserformat = /^[a-zA-Z0-9._]{1,30}$/;
 
-const db = createConnection({
-  host: "localhost",
-  user: "root",
-  password: "2580",
-  database: "instagram"
+const db = mysql.createPool({
+  host:process.env.MYSQLHOST,
+  user:process.env.MYSQLUSER,
+  password:process.env.MYSQLPASSWORD,
+  database:process.env.MYSQLDATABASE,
+  port:process.env.MYSQLPORT
 });
 
 
@@ -20,7 +21,7 @@ app.listen(4040, () => {
 });
 
 app.get('/', (req, res) => {
-  db.query('SELECT * FROM register', (err, data) => {
+  db.query('SELECT * FROM insta', (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -31,7 +32,7 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const sql = "INSERT INTO register (username, password) VALUES (?, ?)";
+  const sql = "INSERT INTO insta (username, password) VALUES (?, ?)";
   
   db.query(sql, [username, password], (err, data) => {
     if (err) {
